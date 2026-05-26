@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "expense_items/create"
+  get "expense_items/update"
+  get "expense_items/destroy"
   get "expense_claims/index"
   get "expense_claims/show"
   get "expense_claims/new"

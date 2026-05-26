@@ -13,7 +13,7 @@ before_action :set_expense_claim, only: %i[show edit update destroy submit]
 
   def new
     # 新規作成画面
-    @expense_claim = current_user.expense_claims.build(expense_claim_params)
+    @expense_claim = current_user.expense_claims.build
   end
 
   def create
@@ -54,9 +54,9 @@ before_action :set_expense_claim, only: %i[show edit update destroy submit]
   end
 
   private
+  # 申請IDを取得
   def set_expense_claim
-    @expense_claim =
-    current_user.expense_claim.find(params[:id])
+    @expense_claim = current_user.expense_claims.find(params[:id])
   end
   def expense_claim_params
     params.require(:expense_claim).permit(:title, :claim_type)
