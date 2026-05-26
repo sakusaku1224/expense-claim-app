@@ -45,31 +45,3 @@ class TripAllowancesController < ApplicationController
     )
   end
 end
-
-  # 明細作成
-  def create
-    @expense_item = @expense_claim.expense_items.build(expense_item_params)
-    if @expense_item.save
-      redirect_to @expense_claim, notice: "明細を追加しました"
-    else
-      redirect_to @expense_claim, alert: "明細の追加に失敗しました"
-    end
-  end
-
-  # 明細更新
-  def update
-    if @expense_item.update(expense_item_params)
-      redirect_to @expense_claim, notice: "明細を更新しました"
-    else
-      redirect_to @expense_claim, alert: "明細の更新に失敗しました"
-    end
-  end
-
-  # 明細削除
-  def destroy
-    @expense_item.destroy
-    redirect_to @expense_claim, notice: "明細を削除しました"
-  end
-
-
-end

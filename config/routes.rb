@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get "comments/create"
+  get "comments/destroy"
   get "trip_allowances/create"
   get "trip_allowances/update"
   get "trip_allowances/destroy"
