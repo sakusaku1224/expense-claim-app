@@ -40,7 +40,7 @@ gem "devise"
 gem "tailwindcss-rails"
 
 # ─── 画像アップロード ──────────────────────────────
-gem "image_processing", "~> 1.2"
+gem "image_processing", "~> 2.0"
 
 # ─── ページネーション ──────────────────────────────
 gem "kaminari"
