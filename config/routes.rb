@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "expense_claims/index"
+  get "expense_claims/show"
+  get "expense_claims/new"
+  get "expense_claims/create"
+  get "expense_claims/edit"
+  get "expense_claims/update"
+  get "expense_claims/destroy"
   get "top/index"
   devise_for :users
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
