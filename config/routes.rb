@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "trip_allowances/create"
+  get "trip_allowances/update"
+  get "trip_allowances/destroy"
   get "expense_items/create"
   get "expense_items/update"
   get "expense_items/destroy"

@@ -1,0 +1,2 @@
+module TripAllowancesHelper
+end

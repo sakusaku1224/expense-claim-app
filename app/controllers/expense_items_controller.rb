@@ -17,7 +17,7 @@ class ExpenseItemsController < ApplicationController
     if @expense_item.update(expense_item_params)
       redirect_to @expense_claim, notice: "明細を更新しました"
     else
-      redirect_to @expense_claim, alert: "明細の追加に失敗しました"
+      redirect_to @expense_claim, alert: "明細の更新に失敗しました"
     end
   end
 
