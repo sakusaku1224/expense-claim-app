@@ -1,0 +1,19 @@
+<!-- ヘッダー -->
+<header class="sticky top-0 z-40 bg-surface shadow-sm w-full">
+  <div class="flex justify-between items-center w-full px-margin-desktop py-md max-w-[1440px] mx-auto">
+    <%# ヘッダーロゴ %>
+    <div class="flex items-center gap-lg">
+      <span class="text-headline-lg font-headline-lg font-bold text-primary">Corporate Modernism Expense</span>
+    </div>
+    <div class="flex items-center gap-lg">
+      <%# バッジ %>
+      <button class="material-symbols-outlined text-primary hover:bg-surface-container rounded-full p-sm transition-colors" data-icon="notifications">notifications</button>
+      <%# アイコン %>
+      <div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center">
+        <span class="text-label-sm font-bold text-primary">
+          <%= current_user.name.first %>
+        </span>
+      </div>
+    </div>
+  </div>
+</header>

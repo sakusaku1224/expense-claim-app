@@ -1,4 +1,113 @@
-<div>
-  <h1 class="font-bold text-4xl">Top#index</h1>
-  <p>Find me in app/views/top/index.html.erb</p>
-</div>
+<!-- ダッシュボード -->
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-xl max-w-[1440px] w-full mx-auto">
+  <!-- 金額表示カード -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg mb-xl">
+    <div class="lg:col-span-2 bg-surface-container-lowest p-lg rounded-xl shadow-sm border border-outline-variant/30 flex flex-col justify-between">
+      <div>
+        <span class="text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">当月の合計金額サマリ</span>
+        <div class="flex flex-wrap items-end gap-xl mt-md">
+          <div>
+            <p class="text-body-md font-body-md text-on-surface-variant">立替合計</p>
+            <p class="text-display font-display text-primary">
+              <%= number_to_currency(@total_regular, unit: "¥", precision: 0, delimiter: ",")%>
+            </p>
+          </div>
+          <div class="h-12 w-px bg-outline-variant hidden sm:block"></div>
+          <div>
+            <p class="text-body-md font-body-md text-on-surface-variant">出張日当合計</p>
+            <p class="text-display font-display text-tertiary">
+              <%= number_to_currency(@total_trip, unit: "¥", precision: 0, delimiter: ",")%>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-lg pt-md border-t border-outline-variant/20 flex justify-between items-center"></div>
+    </div>
+  </div>
+
+  <%# 新規登録カード %>
+  <div class="bg-primary-container text-on-primary-container p-lg rounded-xl shadow-md flex flex-col justify-between relative overflow-hidden group">
+    <div class="z-10">
+      <h3 class="text-headline-md font-headline-md font-bold mb-xs">新規申請</h3>
+      <p class="text-body-md font-body-md opacity-90">領収書をアップロードして、精算申請を行いましょう。</p>
+    </div>
+    <%= link_to new_expense_claim_path, class: "z-10 mt-xl bg-surface-container-lowest text-primary py-md px-lg rounded-lg font-bold flex items-center justify-center gap-md hover:scale-[1.02] transition-transform active:scale-[0.98]" do %>
+      <span class="material-symbols-outlined">add_circle</span>
+      新しい申請を作成
+    <% end %>
+  </div>
+
+  <%# ステータスカード %>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-md mb-xl">
+    <%# 下書き %>
+    <div class="bg-surface-container-lowest p-md rounded-lg border border-outline-variant/30 flex items-center gap-md">
+      <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+        <span class="material-symbols-outlined text-outline">edit</span>
+      </div>
+      <div>
+        <p class="text-label-sm font-label-sm text-on-surface-variant">下書き</p>
+        <p class="text-headline-md font-headline-md">
+          <%= @draft_count %><span class="text-body-md font-normal text-on-surface-variant">件</span></p>
+      </div>
+    </div>
+    <%# 提出済み %>
+    <div class="bg-surface-container-lowest p-md rounded-lg border border-outline-variant/30 flex items-center gap-md">
+      <div class="w-10 h-10 rounded-full bg-primary-container/20 flex items-center justify-center">
+        <span class="material-symbols-outlined text-primary">check_circle</span>
+      </div>
+      <div>
+        <p class="text-label-sm font-label-sm text-on-surface-variant">提出済み</p>
+        <p class="text-headline-md font-headline-md">
+          <%= @submitted_count %><span class="text-body-md font-normal text-on-surface-variant">件</span></p>
+      </div>
+    </div>
+  </div>
+
+  <%# 最近の申請一覧 %>
+  <section class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30 overflow-hidden">
+    <div class="px-lg py-md border-b border-outline-variant/20 items-center">
+      <h3 class="text-headline-md font-headline-md">最近の申請一覧</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-surface-container-low text-label-sm font-label-sm text-on-surface-variant uppercase tracking-wider">
+          <tr>
+            <th class="px-lg py-md">タイトル</th>
+            <th class="px-lg py-md">申請日</th>
+            <th class="px-lg py-md text-right">金額</th>
+            <th class="px-lg py-md">ステータス</th>
+            <th class="px-lg py-md text-center">アクション</th>
+          </tr>
+        </thead>
+        <tbody class="text-body-md font-body-md divide-y divide-outline-variant/10">
+          <% @recent_claims.each do |claim| %>
+            <tr class="hover:bg-background transition-colors cursor-pointer group">
+              <td class="px-lg py-md font-bold">
+                <%= claim.title %>        
+              </td>
+              <td class="px-lg py-md text-on-surface-variant">
+                <%= claim.created_at.strftime("%Y.%m.%d")%>
+              </td>
+              <td class="px-lg py-md text-right font-mono-data">
+                <%= number_to_currency(claim.total_amount, unit: "¥", precision: 0, delimiter: ",")%>
+              </td>
+              <td class="px-lg py-md">
+                <% if claim.draft? %>
+                  <span class="px-sm py-xs rounded-full text-label-sm bg-surface-container-highest text-outline border border-outline-variant/30">下書き</span>
+                <% else %>
+                  <span class="px-sm py-xs rounded-full text-label-sm bg-primary-container/20 text-primary border border-primary/20">提出済み</span>
+                <% end %>
+              </td>
+              <td class="px-lg py-md text-center">
+                <%= link_to "詳細", expense_claim_path(claim), class: "text-primary text-body-md hover:underline" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="px-lg py-md bg-surface-container-low flex justify-center">
+      <%= link_to "すべての申請履歴を表示", expense_claims_path, class: "text-body-md font-bold text-primary hover:underline" %>
+    </div>
+  </section>
+</main>
