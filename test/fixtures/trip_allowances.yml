@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  expense_claim: one
+  trip_date: 2026-05-26
+  day_type: 1
+  trip_type: 1
+  lunch_self_pay: 1
+  dinner_self_pay: 1
+  daily_allowance: 1
+
+two:
+  expense_claim: two
+  trip_date: 2026-05-26
+  day_type: 1
+  trip_type: 1
+  lunch_self_pay: 1
+  dinner_self_pay: 1
+  daily_allowance: 1
