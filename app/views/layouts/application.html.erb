@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title><%= content_for(:title) || "Expense App" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,14 +14,59 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Inter:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+
     <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body {
+        font-family: 'Noto Sans JP', sans-serif;
+      }
+      .sidebar-active {
+        transform: translateX(4px);
+      }
+    </style>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="bg-background text-on-background selection:bg-primary-fixed">
+    <%# サイドバー %>
+    <aside class="h-screen w-64 fixed left-0 top-0 bg-surface-container-low border-r border-outline-variant flex flex-col py-xl px-md gap-sm hidden md:flex z-50">
+      <%# ロゴ %>
+      <div class="mb-xl px-sm">
+        <h1 class="text-headline-md font-headline-md font-bold text-on-surface">Expense Management</h1>
+        <p class="text-label-sm font-label-sm text-on-surface-variant opacity-70">My Expense App</p>
+      </div>
+      <%# ナブ %>
+      <nav class="flex flex-col gap-xs flex-1">
+        <%= link_to root_path, class: "flex items-center gap-md px-md py-sm rounded-lg text-primary font-bold bg-secondary-container transition-all sidebar-active" do %>
+          <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+          <span class="text-body-md font-body-md">ダッシュボード</span>
+        <% end %>
+        <%= link_to new_expense_claim_path, class: "flex items-center gap-md px-md py-sm rounded-lg text-on-secondary-fixed-variant hover:bg-secondary-container transition-all" do %>
+          <span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+          <span class="text-body-md font-body-md">新規申請</span>
+        <% end %>
+        <%= link_to expense_claims_path, class: "flex items-center gap-md px-md py-sm rounded-lg text-on-secondary-fixed-variant hover:bg-secondary-container transition-all" do%>
+          <span class="material-symbols-outlined" data-icon="list_alt">list_alt</span>
+          <span class="text-body-md font-body-md">申請一覧</span>
+        <% end %>
+      </nav>
+      <div class="mt-auto flex flex-col gap-xs pt-xl border-t border-outline-variant">
+        <%= link_to destroy_user_session_path, data: {turbo_method: :delete}, class: "flex items-center gap-md px-md py-sm rounded-lg text-on-secondary-fixed-variant hover:bg-secondary-container transition-all" do %>
+          <span class="material-symbols-outlined" data-icon="logout">logout</span>
+          <span class="text-body-md font-body-md">ログアウト</span>
+        <% end %>
+      </div>
+    </aside>
+    <!-- メイン -->
+    <div class="md:ml-64 min-h-screen flex flex-col">
+      <%= render 'layouts/flash_messages' %>
       <%= yield %>
-    </main>
+    </div>
   </body>
 </html>

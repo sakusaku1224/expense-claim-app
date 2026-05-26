@@ -1,31 +1,29 @@
 Rails.application.routes.draw do
-  get "comments/create"
-  get "comments/destroy"
-  get "trip_allowances/create"
-  get "trip_allowances/update"
-  get "trip_allowances/destroy"
-  get "expense_items/create"
-  get "expense_items/update"
-  get "expense_items/destroy"
-  get "expense_claims/index"
-  get "expense_claims/show"
-  get "expense_claims/new"
-  get "expense_claims/create"
-  get "expense_claims/edit"
-  get "expense_claims/update"
-  get "expense_claims/destroy"
-  get "top/index"
-  devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  # ルートページ（ダッシュボード）
+  root "top#index"
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
+  # Devise（ログイン・登録・ログアウト）
+  devise_for :users
+
+  # ゲストログイン
+  post "guest_login", to: "guest_sessions#create"
+
+  # 経費申請
+  resources :expense_claims do
+    # 提出アクション（PATCHメソッド、/expense_claims/:id/submit）
+    member do
+      patch :submit
+    end
+    # ネストされたリソース
+    resources :expense_items, only: %i[create update destroy]
+    resources :trip_allowances, only: %i[create update destroy]
+    resources :comments, only: %i[create destroy]
+  end
+
+  # ヘルスチェック
   get "up" => "rails/health#show", as: :rails_health_check
 
-  # Render dynamic PWA files from app/views/pwa/*
+  # PWA
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
-
-  # Defines the root path route ("/")
-  # root "posts#index"
 end
